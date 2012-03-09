@@ -60,9 +60,10 @@ $messages['bar'] = array(
 
 /** Belarusian (Taraškievica orthography) (‪Беларуская (тарашкевіца)‬)
  * @author EugeneZelenko
+ * @author Wizardist
  */
 $messages['be-tarask'] = array(
-	'localisationupdate-desc' => 'Сынхранізуе перакладзеныя сыстэмныя паведамленьні як мага даўжэй',
+	'localisationupdate-desc' => 'Сочыць за актуальнасьцю лякалізаваных паведамленьняў, наколькі гэта магчыма',
 );
 
 /** Bulgarian (Български)
