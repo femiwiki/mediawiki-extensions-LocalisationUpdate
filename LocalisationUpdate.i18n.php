@@ -482,6 +482,13 @@ $messages['vi'] = array(
 	'localisationupdate-desc' => 'Giữ các thông điệp bản địa hóa được cập nhật nhất có thể',
 );
 
+/** Yiddish (ייִדיש)
+ * @author פוילישער
+ */
+$messages['yi'] = array(
+	'localisationupdate-desc' => 'האלטן די לאקאליזירטע מעלדונגען אקטועל ווי נאר מעגלעך',
+);
+
 /** Cantonese (粵語)
  * @author Tom Maaswinkel
  */
