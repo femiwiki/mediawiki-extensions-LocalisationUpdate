@@ -468,7 +468,7 @@ $messages['uk'] = array(
 	'localisationupdate-desc' => 'Забезпечує оновлення локалізованих повідомлень у міру можливості',
 );
 
-/** Veps (Vepsan kel')
+/** Veps (Vepsän kel’)
  * @author Игорь Бродский
  */
 $messages['vep'] = array(
