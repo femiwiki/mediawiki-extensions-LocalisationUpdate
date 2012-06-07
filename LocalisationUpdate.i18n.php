@@ -266,9 +266,10 @@ $messages['it'] = array(
 
 /** Japanese (日本語)
  * @author Fryed-peach
+ * @author Shirayuki
  */
 $messages['ja'] = array(
-	'localisationupdate-desc' => 'メッセージの翻訳を可能な限り最新に保つようにする',
+	'localisationupdate-desc' => 'メッセージの翻訳をできるだけ最新に保つ',
 );
 
 /** Khmer (ភាសាខ្មែរ)
