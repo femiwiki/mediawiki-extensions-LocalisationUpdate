@@ -37,7 +37,7 @@ $messages['ar'] = array(
 	'localisationupdate-desc' => 'يبقي الرسائل المترجمة محدثة كأفضل ما يكون',
 );
 
-/** Asturian (Asturianu)
+/** Asturian (asturianu)
  * @author Xuacu
  */
 $messages['ast'] = array(
@@ -66,7 +66,7 @@ $messages['be-tarask'] = array(
 	'localisationupdate-desc' => 'Сочыць за актуальнасьцю лякалізаваных паведамленьняў, наколькі гэта магчыма',
 );
 
-/** Bulgarian (Български)
+/** Bulgarian (български)
  * @author DCLXVI
  */
 $messages['bg'] = array(
@@ -80,28 +80,28 @@ $messages['bn'] = array(
 	'localisationupdate-desc' => 'স্থানীয়করণকৃত বার্তাসমূহ যথাসম্ভব হালনাগাদ রাখে',
 );
 
-/** Breton (Brezhoneg)
+/** Breton (brezhoneg)
  * @author Fulup
  */
 $messages['br'] = array(
 	'localisationupdate-desc' => "Derc'hel da hizivaat ar c'hemennoù troet ken fonnus ha ma'z eus tu",
 );
 
-/** Bosnian (Bosanski)
+/** Bosnian (bosanski)
  * @author CERminator
  */
 $messages['bs'] = array(
 	'localisationupdate-desc' => 'Zadržavanje lokaliziranih poruka ažurnim koliko je god moguće',
 );
 
-/** Catalan (Català)
+/** Catalan (català)
  * @author Paucabot
  */
 $messages['ca'] = array(
 	'localisationupdate-desc' => 'Manté els missatges localitzats tan actualitzats com sigui possible',
 );
 
-/** Czech (Česky)
+/** Czech (česky)
  * @author Mormegil
  */
 $messages['cs'] = array(
@@ -115,7 +115,7 @@ $messages['cy'] = array(
 	'localisationupdate-desc' => "Yn diweddaru'r cyfieithiadau o negeseuon mor aml â phosib",
 );
 
-/** Danish (Dansk)
+/** Danish (dansk)
  * @author Peter Alberti
  */
 $messages['da'] = array(
@@ -151,21 +151,21 @@ $messages['eo'] = array(
 	'localisationupdate-desc' => 'Ĝisdatigas la asimilitajn mesaĝojn tiom eble',
 );
 
-/** Spanish (Español)
+/** Spanish (español)
  * @author Crazymadlover
  */
 $messages['es'] = array(
 	'localisationupdate-desc' => 'Mantiene los mensajes localizados tan actualizados como sea posible',
 );
 
-/** Estonian (Eesti)
+/** Estonian (eesti)
  * @author Pikne
  */
 $messages['et'] = array(
 	'localisationupdate-desc' => 'Hoiab lokaliseeritud sõnumid nii ajakohased kui võimalik.',
 );
 
-/** Basque (Euskara)
+/** Basque (euskara)
  * @author Kobazulo
  */
 $messages['eu'] = array(
@@ -179,7 +179,7 @@ $messages['fa'] = array(
 	'localisationupdate-desc' => 'پیغام‌های محلی‌سازی‌شده را تا جای ممکن به‌روز نگه می‌دارد',
 );
 
-/** Finnish (Suomi)
+/** Finnish (suomi)
  * @author Crt
  * @author Nike
  */
@@ -187,7 +187,7 @@ $messages['fi'] = array(
 	'localisationupdate-desc' => 'Pitää ohjelmiston käännöksen ajantasaisena.',
 );
 
-/** French (Français)
+/** French (français)
  * @author Crochet.david
  */
 $messages['fr'] = array(
@@ -222,7 +222,7 @@ $messages['hil'] = array(
 	'localisationupdate-desc' => 'Gatugo sang mga mensahe nga lokal para mapahibalo sang madali',
 );
 
-/** Croatian (Hrvatski)
+/** Croatian (hrvatski)
  * @author SpeedyGonsales
  */
 $messages['hr'] = array(
@@ -236,14 +236,14 @@ $messages['hsb'] = array(
 	'localisationupdate-desc' => 'Dźerži lokalizowane zdźělenki tak aktualne kaž móžno',
 );
 
-/** Hungarian (Magyar)
+/** Hungarian (magyar)
  * @author Glanthor Reviol
  */
 $messages['hu'] = array(
 	'localisationupdate-desc' => 'Frissíti a lefordított üzeneteket',
 );
 
-/** Interlingua (Interlingua)
+/** Interlingua (interlingua)
  * @author McDutchie
  */
 $messages['ia'] = array(
@@ -257,7 +257,7 @@ $messages['id'] = array(
 	'localisationupdate-desc' => 'Mengusahakan agar pesan-pesan yang telah diterjemahkan tetap semutakhir mungkin',
 );
 
-/** Italian (Italiano)
+/** Italian (italiano)
  * @author Darth Kule
  */
 $messages['it'] = array(
@@ -300,7 +300,7 @@ $messages['lb'] = array(
 	'localisationupdate-desc' => 'hält déi lokaliséiert Messagen esou aktuell wéi méiglech.',
 );
 
-/** Macedonian (Македонски)
+/** Macedonian (македонски)
  * @author Bjankuloski06
  */
 $messages['mk'] = array(
@@ -335,21 +335,21 @@ $messages['nl'] = array(
 	'localisationupdate-desc' => 'Houdt de gelokaliseerde berichten zo actueel mogelijk',
 );
 
-/** Norwegian Nynorsk (‪Norsk (nynorsk)‬)
+/** Norwegian Nynorsk (‪norsk (nynorsk)‬)
  * @author Gunnernett
  */
 $messages['nn'] = array(
 	'localisationupdate-desc' => 'Held dei lokaliserte meldingane så oppdaterte som mogleg',
 );
 
-/** Occitan (Occitan)
+/** Occitan (occitan)
  * @author Cedric31
  */
 $messages['oc'] = array(
 	'localisationupdate-desc' => 'Manténer la traduccion dels messatges a jorn autant que possible',
 );
 
-/** Polish (Polski)
+/** Polish (polski)
  * @author Sp5uhe
  */
 $messages['pl'] = array(
@@ -363,7 +363,7 @@ $messages['pms'] = array(
 	'localisationupdate-desc' => 'A manten i messagi localisà ël pì agiornà possìbil',
 );
 
-/** Portuguese (Português)
+/** Portuguese (português)
  * @author Hamilton Abreu
  * @author Malafaya
  */
@@ -371,49 +371,49 @@ $messages['pt'] = array(
 	'localisationupdate-desc' => 'Mantém as mensagens localizadas tão actualizadas quanto possível',
 );
 
-/** Brazilian Portuguese (Português do Brasil)
+/** Brazilian Portuguese (português do Brasil)
  * @author Eduardo.mps
  */
 $messages['pt-br'] = array(
 	'localisationupdate-desc' => 'Mantém as mensagens localizadas tão atualizadas quanto possível',
 );
 
-/** Romanian (Română)
+/** Romanian (română)
  * @author KlaudiuMihaila
  */
 $messages['ro'] = array(
 	'localisationupdate-desc' => 'Menține mesajele localizate cât mai actualizate',
 );
 
-/** Tarandíne (Tarandíne)
+/** tarandíne (tarandíne)
  * @author Joetaras
  */
 $messages['roa-tara'] = array(
 	'localisationupdate-desc' => "Mandine le messagge localizzate 'u cchiù aggiornate possibbile",
 );
 
-/** Russian (Русский)
+/** Russian (русский)
  * @author Александр Сигачёв
  */
 $messages['ru'] = array(
 	'localisationupdate-desc' => 'Поддерживает актуальность локализованных сообщений, насколько это возможно',
 );
 
-/** Slovak (Slovenčina)
+/** Slovak (slovenčina)
  * @author Helix84
  */
 $messages['sk'] = array(
 	'localisationupdate-desc' => 'Udržiava lokalizované správy čo najaktuálnejšie',
 );
 
-/** Serbian (Cyrillic script) (‪Српски (ћирилица)‬)
+/** Serbian (Cyrillic script) (‪српски (ћирилица)‬)
  * @author Михајло Анђелковић
  */
 $messages['sr-ec'] = array(
 	'localisationupdate-desc' => 'Ажурира локализоване поруке колико је то могуће',
 );
 
-/** Serbian (Latin script) (‪Srpski (latinica)‬)
+/** Serbian (Latin script) (‪srpski (latinica)‬)
  * @author Liangent
  */
 $messages['sr-el'] = array(
@@ -427,7 +427,7 @@ $messages['su'] = array(
 	'localisationupdate-desc' => 'Ngajaga sangkan talatah-talatah nu geus dialihbasakeun salawasnya mutahir',
 );
 
-/** Swedish (Svenska)
+/** Swedish (svenska)
  * @author Boivie
  */
 $messages['sv'] = array(
@@ -462,7 +462,7 @@ $messages['tr'] = array(
 	'localisationupdate-desc' => 'Yerelleştirilen mesajları mümkün olabildiğince güncel tutar',
 );
 
-/** Ukrainian (Українська)
+/** Ukrainian (українська)
  * @author Prima klasy4na
  */
 $messages['uk'] = array(
@@ -497,14 +497,14 @@ $messages['yue'] = array(
 	'localisationupdate-desc' => '將本地化嘅信息保持最新',
 );
 
-/** Simplified Chinese (‪中文(简体)‬)
+/** Simplified Chinese (‪中文（简体）‬)
  * @author Tom Maaswinkel
  */
 $messages['zh-hans'] = array(
 	'localisationupdate-desc' => '将本地化的信息保持最新',
 );
 
-/** Traditional Chinese (‪中文(繁體)‬)
+/** Traditional Chinese (‪中文（繁體）‬)
  * @author Mark85296341
  * @author Tom Maaswinkel
  */
