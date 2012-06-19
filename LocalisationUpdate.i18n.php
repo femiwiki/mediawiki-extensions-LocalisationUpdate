@@ -483,6 +483,13 @@ $messages['vi'] = array(
 	'localisationupdate-desc' => 'Giữ các thông điệp bản địa hóa được cập nhật nhất có thể',
 );
 
+/** Walloon (walon)
+ * @author Srtxg
+ */
+$messages['wa'] = array(
+	'localisationupdate-desc' => "Po wårder  les ratournaedjes di l' eterface li pus a djoû possibe",
+);
+
 /** Yiddish (ייִדיש)
  * @author פוילישער
  */
