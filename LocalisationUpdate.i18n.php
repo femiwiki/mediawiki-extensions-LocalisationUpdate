@@ -257,6 +257,13 @@ $messages['id'] = array(
 	'localisationupdate-desc' => 'Mengusahakan agar pesan-pesan yang telah diterjemahkan tetap semutakhir mungkin',
 );
 
+/** Iloko (Ilokano)
+ * @author Lam-ang
+ */
+$messages['ilo'] = array(
+	'localisationupdate-desc' => 'Taginayonenna a mapabaro dagiti naipatarus a mensahe',
+);
+
 /** Italian (italiano)
  * @author Darth Kule
  */
