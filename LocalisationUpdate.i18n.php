@@ -44,7 +44,7 @@ $messages['ast'] = array(
 	'localisationupdate-desc' => 'Caltién los mensaxes llocalizaos tan anovaos como se pueda',
 );
 
-/** Bashkir (Башҡортса)
+/** Bashkir (башҡортса)
  * @author Assele
  */
 $messages['ba'] = array(
@@ -328,7 +328,7 @@ $messages['ms'] = array(
 	'localisationupdate-desc' => 'Memastikan kekemaskinian mesej-mesej yang disetempatkan',
 );
 
-/** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
+/** Norwegian Bokmål (‪norsk (bokmål)‬)
  * @author Nghtwlkr
  */
 $messages['nb'] = array(
@@ -476,7 +476,7 @@ $messages['uk'] = array(
 	'localisationupdate-desc' => 'Забезпечує оновлення локалізованих повідомлень у міру можливості',
 );
 
-/** Veps (Vepsän kel’)
+/** Veps (vepsän kel’)
  * @author Игорь Бродский
  */
 $messages['vep'] = array(
