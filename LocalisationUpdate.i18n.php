@@ -525,4 +525,3 @@ $messages['zh-hans'] = array(
 $messages['zh-hant'] = array(
 	'localisationupdate-desc' => '將本地化的資訊盡可能保持最新',
 );
-
