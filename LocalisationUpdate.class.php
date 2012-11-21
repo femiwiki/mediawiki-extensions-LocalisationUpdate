@@ -52,7 +52,8 @@ class LocalisationUpdate {
 	 * @return true
 	 */
 	public static function updateMessages( array $options ) {
-		global $wgLocalisationUpdateDirectory, $wgLocalisationUpdateSVNURL;
+		global $wgLocalisationUpdateDirectory, $wgLocalisationUpdateCoreURL,
+			$wgLocalisationUpdateExtensionURL, $wgLocalisationUpdateSVNURL;
 
 		$verbose = !isset( $options['quiet'] );
 		$all = isset( $options['all'] );
@@ -62,17 +63,27 @@ class LocalisationUpdate {
 		if( isset( $options['outdir'] ) ) {
 			$wgLocalisationUpdateDirectory = $options['outdir'];
 		}
-		
+
+		$coreUrl = $wgLocalisationUpdateCoreURL;
+		$extUrl = $wgLocalisationUpdateExtensionURL;
+
+		// Some ugly BC
+		if ( $wgLocalisationUpdateSVNURL ) {
+			$coreUrl = $wgLocalisationUpdateSVNURL . '/phase3/$2';
+			$extUrl = $wgLocalisationUpdateSVNURL . '/extensions/$1/$2';
+		}
+
+		// Some more ugly BC
 		if ( isset( $options['svnurl'] ) ) {
-			// FIXME: Ewwwww. Refactor so this can be done properly
-			$wgLocalisationUpdateSVNURL = $options['svnurl'];
+			$coreUrl = $options['svnurl'] . '/phase3/$2';
+			$extUrl = $options['svnurl'] . '/extensions/$1/$2';
 		}
 
 		$result = 0;
 
 		// Update all MW core messages.
 		if( !$skipCore ) {
-			$result = self::updateMediawikiMessages( $verbose );
+			$result = self::updateMediawikiMessages( $verbose, $coreUrl );
 		}
 
 		// Update all Extension messages.
@@ -99,7 +110,7 @@ class LocalisationUpdate {
 				$extFiles = $wgExtensionMessagesFiles;
 			}
 			foreach ( $extFiles as $extension => $locFile ) {
-				$result += self::updateExtensionMessages( $locFile, $extension, $verbose );
+				$result += self::updateExtensionMessages( $locFile, $extension, $verbose, $extUrl );
 			}
 		}
 
@@ -121,18 +132,13 @@ class LocalisationUpdate {
 	 *
 	 * @return Integer: the amount of updated messages
 	 */
-	public static function updateExtensionMessages( $file, $extension, $verbose ) {
-		global $IP, $wgLocalisationUpdateSVNURL;
-
-		$relfile = wfRelativePath( $file, "$IP/extensions" );
-
+	public static function updateExtensionMessages( $file, $extension, $verbose, $extUrl ) {
 		// Create a full path.
-		// TODO: add support for $wgExtensionAssetsPath
-		// $localfile = "$IP/extensions/$relfile";
-
-		// Get the full SVN directory path.
-		// TODO: add support for $wgExtensionAssetsPath
-		$svnfile = "$wgLocalisationUpdateSVNURL/extensions/$relfile";
+		$svnfile = str_replace(
+			array( '$1', '$2' ),
+			array( $extension, $file ),
+			$extUrl
+		);
 
 		// Compare the 2 files.
 		$result = self::compareExtensionFiles( $extension, $svnfile, $file, $verbose, false, true );
@@ -147,20 +153,17 @@ class LocalisationUpdate {
 	 *
 	 * @return Integer: the amount of updated messages
 	 */
-	public static function updateMediawikiMessages( $verbose ) {
-		global $IP, $wgLocalisationUpdateSVNURL;
+	public static function updateMediawikiMessages( $verbose, $coreUrl ) {
+		global $IP;
 
 		// Create an array which will later contain all the files that we want to try to update.
 		$files = array();
 
-		// The directory which contains the files.
-		$dirname = "languages/messages";
-
 		// Get the full path to the directory.
-		$localdir = $IP . "/" . $dirname;
+		$localdir = "$IP/languages/messages";
 
-		// Get the full SVN Path.
-		$svndir = "$wgLocalisationUpdateSVNURL/phase3/$dirname";
+		// Get the full path.
+
 
 		// Open the directory.
 		$dir = opendir( $localdir );
@@ -177,19 +180,23 @@ class LocalisationUpdate {
 		closedir( $dir );
 
 		// Find the changed English strings (as these messages won't be updated in ANY language).
-		$changedEnglishStrings = self::compareFiles( $localdir . '/MessagesEn.php', $svndir . '/MessagesEn.php', $verbose );
+		$localUrl = Language::getMessagesFileName( 'en' );
+		$repoUrl = str_replace( '$2', 'languages/messages/MessagesEn.php', $coreUrl );
+		$changedEnglishStrings = self::compareFiles( $localUrl, $repoUrl, $verbose );
 
 		// Count the changes.
 		$changedCount = 0;
 
-		// For each language.
-		sort( $files );
-		foreach ( $files as $file ) {
-			$svnfile = $svndir . '/' . $file;
-			$localfile = $localdir . '/' . $file;
+
+		$languages = Language::fetchLanguageNames( null, 'mwfile' );
+		foreach ( array_keys( $languages ) as $code ) {
+			$localUrl = Language::getMessagesFileName( $code );
+			// Not prefixed with $IP
+			$filename = Language::getFilename( 'languages/messages/Messages', $code );
+			$repoUrl = str_replace( '$2', $filename, $coreUrl );
 
 			// Compare the files.
-			$result = self::compareFiles( $svnfile, $localfile, $verbose, $changedEnglishStrings, false, true );
+			$result = self::compareFiles( $repoUrl, $localUrl, $verbose, $changedEnglishStrings, false, true );
 
 			// And update the change counter.
 			$changedCount += count( $result );

@@ -18,7 +18,7 @@ if( isset( $options['help'] ) ) {
 	print "  --skip-extensions Don't fetch any extension files\n";
 	print "  --all             Fetch all present extensions, not just those enabled\n";
 	print "  --outdir=<dir>    Override output directory for serialized update files\n";
-	print "  --svnurl=<url>    URL to SVN repository, or path to local SVN checkout. Default: $wgLocalisationUpdateSVNURL\n";
+	print "  --svnurl=<url>    URL to SVN repository, or path to local SVN checkout. Deprecated.\n";
 	print "\n";
 	exit( 0 );
 }
