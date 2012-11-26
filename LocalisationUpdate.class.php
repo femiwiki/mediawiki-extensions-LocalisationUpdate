@@ -133,10 +133,19 @@ class LocalisationUpdate {
 	 * @return Integer: the amount of updated messages
 	 */
 	public static function updateExtensionMessages( $file, $extension, $verbose, $extUrl ) {
+		$match = array();
+		$ok = preg_match( '~^.*/extensions/([^/]+)/(.*)$~U', $file, $match );
+		if ( !$ok ) {
+			return null;
+		}
+
+		$ext = $match[1];
+		$extFile = $match[2];
+
 		// Create a full path.
 		$svnfile = str_replace(
 			array( '$1', '$2' ),
-			array( $extension, $file ),
+			array( $ext, $extFile ),
 			$extUrl
 		);
 
