@@ -150,7 +150,7 @@ class LocalisationUpdate {
 		);
 
 		// Compare the 2 files.
-		$result = self::compareExtensionFiles( $extension, $svnfile, $file, $verbose, false, true );
+		$result = self::compareExtensionFiles( $extension, $svnfile, $file, $verbose );
 
 		return $result;
 	}
@@ -163,39 +163,13 @@ class LocalisationUpdate {
 	 * @return Integer: the amount of updated messages
 	 */
 	public static function updateMediawikiMessages( $verbose, $coreUrl ) {
-		global $IP;
-
-		// Create an array which will later contain all the files that we want to try to update.
-		$files = array();
-
-		// Get the full path to the directory.
-		$localdir = "$IP/languages/messages";
-
-		// Get the full path.
-
-
-		// Open the directory.
-		$dir = opendir( $localdir );
-		while ( false !== ( $file = readdir( $dir ) ) ) {
-			$m = array();
-
-			// And save all the filenames of files containing messages
-			if ( preg_match( '/Messages([A-Z][a-z_]+)\.php$/', $file, $m ) ) {
-				if ( $m[1] != 'En' ) { // Except for the English one.
-					$files[] = $file;
-				}
-			}
-		}
-		closedir( $dir );
-
 		// Find the changed English strings (as these messages won't be updated in ANY language).
 		$localUrl = Language::getMessagesFileName( 'en' );
 		$repoUrl = str_replace( '$2', 'languages/messages/MessagesEn.php', $coreUrl );
-		$changedEnglishStrings = self::compareFiles( $localUrl, $repoUrl, $verbose );
+		$changedEnglishStrings = self::compareFiles( $repoUrl, $localUrl, $verbose );
 
 		// Count the changes.
 		$changedCount = 0;
-
 
 		$languages = Language::fetchLanguageNames( null, 'mwfile' );
 		foreach ( array_keys( $languages ) as $code ) {
@@ -205,10 +179,7 @@ class LocalisationUpdate {
 			$repoUrl = str_replace( '$2', $filename, $coreUrl );
 
 			// Compare the files.
-			$result = self::compareFiles( $repoUrl, $localUrl, $verbose, $changedEnglishStrings, false, true );
-
-			// And update the change counter.
-			$changedCount += count( $result );
+			$changedCount += self::compareFiles( $repoUrl, $localUrl, $verbose, $changedEnglishStrings, false, true );
 		}
 
 		// Log some nice info.
@@ -235,41 +206,8 @@ class LocalisationUpdate {
 
 		$results = array();
 
-		// And we only want the messages array.
-		preg_match( "/\\\$messages(.*\s)*?\);/", $contents, $results );
-
-		// If there is any!
-		if ( !empty( $results[0] ) ) {
-			$contents = $results[0];
-		} else {
-			$contents = '';
-		}
-
-		// Windows vs Unix always stinks when comparing files.
-		$contents = preg_replace( "/\\r\\n?/", "\n", $contents );
-
-		// Return the cleaned up file.
-		return $contents;
-	}
-
-	/**
-	 * Removes all unneeded content from a file and returns it.
-	 *
-	 * FIXME: duplicated cleanupFile code
-	 *
-	 * @param $contents String
-	 *
-	 * @return string
-	 */
-	public static function cleanupExtensionFile( $contents ) {
-		// We don't want PHP tags.
-		$contents = preg_replace( "/<\?php/", "", $contents );
-		$contents = preg_replace( "/\?" . ">/", "", $contents );
-
-		$results = array();
-
 		// And we only want message arrays.
-		preg_match_all( "/\\\$messages(.*\s)*?\);/", $contents, $results );
+		preg_match_all( '/\$messages(.*\s)*?\);/', $contents, $results );
 
 		// But we want them all in one string.
 		if( !empty( $results[0] ) && is_array( $results[0] ) ) {
@@ -279,7 +217,7 @@ class LocalisationUpdate {
 		}
 
 		// And we hate the windows vs linux linebreaks.
-		$contents = preg_replace( "/\\\r\\\n?/", "\n", $contents );
+		$contents = preg_replace( '/\r\n?/', "\n", $contents );
 
 		return $contents;
 	}
@@ -287,161 +225,241 @@ class LocalisationUpdate {
 	/**
 	 * Returns the contents of a file or false on failiure.
 	 *
-	 * @param $basefile String
+	 * @param $file String
 	 *
 	 * @return string or false
 	 */
-	public static function getFileContents( $basefile ) {
+	public static function getFileContents( $file ) {
 		global $wgLocalisationUpdateRetryAttempts;
 
 		$attempts = 0;
-		$basefilecontents = '';
+		$filecontents = '';
 
 		// Use cURL to get the SVN contents.
-		if ( preg_match( "/^http/", $basefile ) ) {
-			while( !$basefilecontents && $attempts <= $wgLocalisationUpdateRetryAttempts ) {
+		if ( preg_match( "/^http/", $file ) ) {
+			while( !$filecontents && $attempts <= $wgLocalisationUpdateRetryAttempts ) {
 				if( $attempts > 0 ) {
 					$delay = 1;
-					self::myLog( 'Failed to download ' . $basefile . "; retrying in ${delay}s..." );
+					self::myLog( 'Failed to download ' . $file . "; retrying in ${delay}s..." );
 					sleep( $delay );
 				}
 
-				$basefilecontents = Http::get( $basefile );
+				$filecontents = Http::get( $file );
 				$attempts++;
 			}
-			if ( !$basefilecontents ) {
-				self::myLog( 'Cannot get the contents of ' . $basefile . ' (curl)' );
+			if ( !$filecontents ) {
+				self::myLog( 'Cannot get the contents of ' . $file . ' (curl)' );
 				return false;
 			}
 		} else {// otherwise try file_get_contents
-			if ( !( $basefilecontents = file_get_contents( $basefile ) ) ) {
-				self::myLog( 'Cannot get the contents of ' . $basefile );
+			if ( !( $filecontents = file_get_contents( $file ) ) ) {
+				self::myLog( 'Cannot get the contents of ' . $file );
 				return false;
 			}
 		}
 
-		return $basefilecontents;
+		return $filecontents;
+	}
+
+	/**
+	 * Returns a pair of arrays containing the messages from two files, or
+	 * a pair of nulls if the files don't need to be checked.
+	 *
+	 * @param $tag String
+	 * @param $file1 String
+	 * @param $file2 String
+	 * @param $verbose Boolean
+	 * @param $alwaysGetResult Boolean
+	 *
+	 * @return array
+	 */
+	public static function loadFilesToCompare( $tag, $file1, $file2, $verbose, $alwaysGetResult = true ) {
+		$file1contents = self::getFileContents( $file1 );
+		if ( $file1contents === false || $file1contents === '' ) {
+			self::myLog( "Failed to read $file1" );
+			return array( null, null );
+		}
+
+		$file2contents = self::getFileContents( $file2 );
+		if ( $file2contents === false || $file2contents === '' ) {
+			self::myLog( "Failed to read $file2" );
+			return array( null, null );
+		}
+
+		// Only get the part we need.
+		$file1contents = self::cleanupFile( $file1contents );
+		$file1hash = md5( $file1contents );
+
+		$file2contents = self::cleanupFile( $file2contents );
+		$file2hash = md5( $file2contents );
+
+		// Check if the file has changed since our last update.
+		if ( !$alwaysGetResult ) {
+			if ( !self::checkHash( $file1, $file1hash ) && !self::checkHash( $file2, $file2hash ) ) {
+				self::myLog( "Skipping {$tag} since the files haven't changed since our last update", $verbose );
+				return array( null, null );
+			}
+		}
+
+		// Get the array with messages.
+		$messages1 = self::parsePHP( $file1contents, 'messages' );
+		if ( !is_array( $messages1 ) ) {
+			if ( strpos( $file1contents, '$messages' ) === false ) {
+				// No $messages array. This happens for some languages that only have a fallback
+				$messages1 = array();
+			} else {
+				// Broken file? Report and bail
+				self::myLog( "Failed to parse $file1" );
+				return array( null, null );
+			}
+		}
+
+		$messages2 = self::parsePHP( $file2contents, 'messages' );
+		if ( !is_array( $messages2 ) ) {
+			// Broken file? Report and bail
+			if ( strpos( $file2contents, '$messages' ) === false ) {
+				// No $messages array. This happens for some languages that only have a fallback
+				$messages2 = array();
+			} else {
+				self::myLog( "Failed to parse $file2" );
+				return array( null, null );
+			}
+		}
+
+		self::saveHash( $file1, $file1hash );
+		self::saveHash( $file2, $file2hash );
+
+		return array( $messages1, $messages2 );
+	}
+
+	/**
+	 * Compare new and old messages lists, and optionally save the new
+	 * messages if they've changed.
+	 *
+	 * @param $langcode String
+	 * @param $old_messages Array
+	 * @param $new_messages Array
+	 * @param $verbose Boolean
+	 * @param $forbiddenKeys Array
+	 * @param $saveResults Boolean
+	 *
+	 * @return array|int
+	 */
+	private static function compareLanguageArrays( $langcode, $old_messages, $new_messages, $verbose, $forbiddenKeys, $saveResults ) {
+		// Get the currently-cached messages, if any
+		$cur_messages = self::readFile( $langcode );
+
+		// Update the messages lists with the cached messages
+		$old_messages = array_merge( $old_messages, $cur_messages );
+		$new_messages = array_merge( $cur_messages, $new_messages );
+
+		// Use the old/cached version for any forbidden keys
+		if ( count( $forbiddenKeys ) ) {
+			$new_messages = array_merge(
+				array_diff_key( $new_messages, $forbiddenKeys ),
+				array_intersect_key( $old_messages, $forbiddenKeys )
+			);
+		}
+
+
+		if ( $saveResults ) {
+			// If anything has changed from the saved version, save the new version
+			if ( $new_messages != $cur_messages ) {
+				// Count added, updated, and deleted messages:
+				// diff( new, cur ) gives added + updated, and diff( cur, new )
+				// gives deleted + updated.
+				$changed = array_diff_assoc( $new_messages, $cur_messages ) +
+					array_diff_assoc( $cur_messages, $new_messages );
+				$updates = count( $changed );
+				self::myLog( "{$updates} messages updated for {$langcode}.", $verbose );
+				self::writeFile( $langcode, $new_messages );
+			} else {
+				$updates = 0;
+			}
+			return $updates;
+		} else {
+			// Find all deleted or changed messages
+			$changedStrings = array_diff_assoc( $old_messages, $new_messages );
+			return $changedStrings;
+		}
 	}
 
 	/**
 	 * Returns an array containing the differences between the files.
 	 *
-	 * @param $basefile String
-	 * @param $comparefile String
+	 * @param $newfile String
+	 * @param $oldfile String
 	 * @param $verbose Boolean
 	 * @param $forbiddenKeys Array
 	 * @param $alwaysGetResult Boolean
 	 * @param $saveResults Boolean
 	 *
-	 * @return array
+	 * @return array|int
 	 */
-	public static function compareFiles( $basefile, $comparefile, $verbose, array $forbiddenKeys = array(), $alwaysGetResult = true, $saveResults = false ) {
+	public static function compareFiles( $newfile, $oldfile, $verbose, array $forbiddenKeys = array(), $alwaysGetResult = true, $saveResults = false ) {
 		// Get the languagecode.
-		$langcode = Language::getCodeFromFileName( $basefile, 'Messages' );
+		$langcode = Language::getCodeFromFileName( $newfile, 'Messages' );
 
-		$basefilecontents = self::getFileContents( $basefile );
-
-		if ( $basefilecontents === false || $basefilecontents === '' ) {
-			self::myLog( "Failed to read $basefile" );
-			return array();
-		}
-
-		// Only get the part we need.
-		$basefilecontents = self::cleanupFile( $basefilecontents );
-
-		// Change the variable name.
-		$basefilecontents = preg_replace( "/\\\$messages/", "\$base_messages", $basefilecontents );
-		$basehash = md5( $basefilecontents );
-
-		// Check if the file has changed since our last update.
-		if ( !$alwaysGetResult ) {
-			if ( !self::checkHash( $basefile, $basehash ) ) {
-				self::myLog( "Skipping {$langcode} since the remote file hasn't changed since our last update", $verbose );
-				return array();
-			}
-		}
-
-		// Get the array with messages.
-		$base_messages = self::parsePHP( $basefilecontents, 'base_messages' );
-		if ( !is_array( $base_messages ) ) {
-			if ( strpos( $basefilecontents, "\$base_messages" ) === false ) {
-				// No $messages array. This happens for some languages that only have a fallback
-				$base_messages = array();
-			} else {
-				// Broken file? Report and bail
-				self::myLog( "Failed to parse $basefile" );
-				return array();
-			}
-		}
-
-		$comparefilecontents = self::getFileContents( $comparefile );
-
-		if ( $comparefilecontents === false || $comparefilecontents === '' ) {
-			self::myLog( "Failed to read $comparefile" );
-			return array();
-		}
-
-		// Only get the stuff we need.
-		$comparefilecontents = self::cleanupFile( $comparefilecontents );
-
-		// Rename the array.
-		$comparefilecontents = preg_replace( "/\\\$messages/", "\$compare_messages", $comparefilecontents );
-		$comparehash = md5( $comparefilecontents );
-
-		// If this is the remote file check if the file has changed since our last update.
-		if ( preg_match( "/^http/", $comparefile ) && !$alwaysGetResult ) {
-			if ( !self::checkHash( $comparefile, $comparehash ) ) {
-				self::myLog( "Skipping {$langcode} since the remote file has not changed since our last update", $verbose );
-				return array();
-			}
-		}
-
-		// Get the array.
-		$compare_messages = self::parsePHP( $comparefilecontents, 'compare_messages' );
-		if ( !is_array( $compare_messages ) ) {
-			// Broken file? Report and bail
-			if ( strpos( $comparefilecontents, "\$compare_messages" ) === false ) {
-				// No $messages array. This happens for some languages that only have a fallback
-				self::myLog( "Skipping $langcode , no messages array in $comparefile", $verbose );
-				$compare_messages = array();
-			} else {
-				self::myLog( "Failed to parse $comparefile" );
-				return array();
-			}
-		}
-
-		// If the localfile and the remote file are the same, skip them!
-		if ( $basehash == $comparehash && !$alwaysGetResult ) {
-			self::myLog( "Skipping {$langcode} since the remote file is the same as the local file", $verbose );
-			return array();
-		}
-
-		// Add the messages we got with our previous update(s) to the local array (as we already got these as well).
-		$compare_messages = array_merge(
-			$compare_messages,
-			self::readFile( $langcode )
+		list( $new_messages, $old_messages ) = self::loadFilesToCompare(
+			$langcode, $newfile, $oldfile, $verbose, $alwaysGetResult
 		);
+		if ( $new_messages === null || $old_messages === null ) {
+			return $saveResults ? 0 : array();
+		}
 
-		// Compare the remote and local message arrays.
-		$changedStrings = array_diff_assoc( $base_messages, $compare_messages );
+		return self::compareLanguageArrays( $langcode, $old_messages, $new_messages, $verbose, $forbiddenKeys, $saveResults );
+	}
 
-		// If we want to save the differences.
-		// HACK: because of the hack in saveChanges(), we need to call that function
-		// even if $changedStrings is empty. So comment out the $changedStrings checks below.
-		if ( $saveResults /* && !empty( $changedStrings ) && is_array( $changedStrings )*/ ) {
-			self::myLog( "--Checking languagecode {$langcode}--", $verbose );
-			// Save the differences.
-			$updates = self::saveChanges( $changedStrings, $forbiddenKeys, $compare_messages, $base_messages, $langcode, $verbose );
-			self::myLog( "{$updates} messages updated for {$langcode}.", $verbose );
-		} /*elseif ( $saveResults ) {
-			self::myLog( "--{$langcode} hasn't changed--", $verbose );
-		}*/
+	/**
+	 *
+	 * @param $extension String
+	 * @param $newfile String
+	 * @param $oldfile String
+	 * @param $verbose Boolean
+	 * @param $alwaysGetResult Boolean
+	 * @param $saveResults Boolean
+	 *
+	 * @return Integer: the amount of updated messages
+	 */
+	public static function compareExtensionFiles( $extension, $newfile, $oldfile, $verbose ) {
+		list( $new_messages, $old_messages ) = self::loadFilesToCompare(
+			$extension, $newfile, $oldfile, $verbose, false
+		);
+		if ( $new_messages === null || $old_messages === null ) {
+			return 0;
+		}
 
-		self::saveHash( $basefile, $basehash );
+		// Update counter.
+		$updates = 0;
 
-		self::saveHash( $comparefile, $comparehash );
+		if ( empty( $new_messages['en'] ) ) {
+			$new_messages['en'] = array();
+		}
 
-		return $changedStrings;
+		if ( empty( $old_messages['en'] ) ) {
+			$old_messages['en'] = array();
+		}
+
+		// Find the changed english strings.
+		$forbiddenKeys = self::compareLanguageArrays( 'en', $old_messages['en'], $new_messages['en'], $verbose, array(), false );
+
+		// Do an update for each language.
+		foreach ( $new_messages as $language => $messages ) {
+			if ( $language == 'en' ) { // Skip english.
+				continue;
+			}
+
+			if ( !isset( $old_messages[$language] ) ) {
+				$old_messages[$language] = array();
+			}
+
+			$updates += self::compareLanguageArrays( $language, $old_messages[$language], $messages, $verbose, $forbiddenKeys, true );
+		}
+
+		// And log some stuff.
+		self::myLog( "Updated " . $updates . " messages for the '{$extension}' extension", $verbose );
+
+		return $updates;
 	}
 
 	/**
@@ -473,200 +491,6 @@ class LocalisationUpdate {
 
 	public static function writeHashes() {
 		self::writeFile( 'hashes', self::$newHashes );
-	}
-
-	/**
-	 *
-	 *
-	 * @param $changedStrings Array
-	 * @param $forbiddenKeys Array
-	 * @param $compare_messages Array
-	 * @param $base_messages Array
-	 * @param $langcode String
-	 * @param $verbose Boolean
-	 *
-	 * @return Integer: the amount of updated messages
-	 */
-	public static function saveChanges( $changedStrings, array $forbiddenKeys, array $compare_messages, array $base_messages, $langcode, $verbose ) {
-		// Count the updates.
-		$updates = 0;
-
-		if( !is_array( $changedStrings ) ) {
-			self::myLog("CRITICAL ERROR: \$changedStrings is not an array in file " . (__FILE__) . ' at line ' .( __LINE__ ) );
-			return 0;
-		}
-
-		// This function is run once for core and once for each extension,
-		// so make sure messages from previous runs aren't lost
-		$new_messages = self::readFile( $langcode );
-
-		//foreach ( $changedStrings as $key => $value ) {
-		// HACK for r103763 CR: store all messages, even unchanged ones
-		// TODO this file is a mess and needs to be rewritten
-		foreach ( array_merge( array_keys( $base_messages ), array_keys( $compare_messages ) ) as $key ) {
-			// Only update the translation if this message wasn't changed in English
-			if ( !isset( $forbiddenKeys[$key] ) && isset( $base_messages[$key] ) ) {
-				$new_messages[$key] = $base_messages[$key];
-
-				if ( !isset( $compare_messages[$key] ) || $compare_messages[$key] !== $base_messages[$key] ) {
-					// Output extra logmessages when needed.
-					if ( $verbose ) {
-						$oldmsg = isset( $compare_messages[$key] ) ? "'{$compare_messages[$key]}'" : 'not set';
-						self::myLog( "Updated message {$key} from $oldmsg to '{$base_messages[$key]}'", $verbose );
-					}
-
-					// Update the counter.
-					$updates++;
-				}
-			} elseif ( isset( $forbiddenKeys[$key] ) && isset( $compare_messages[$key] ) ) {
-				// The message was changed in English, but a previous translation still exists in the cache.
-				// Use that previous translation rather than falling back to the .i18n.php file
-				$new_messages[$key] = $compare_messages[$key];
-			}
-			// Other possible cases:
-			// * The messages is no longer in the SVN file, but is present in the local i18n file or in the cache
-			// * The message was changed in English, and there is no previous translation in the i18n file or in the cache
-			// In both cases, we can safely do nothing
-		}
-		self::writeFile( $langcode, $new_messages );
-
-		return $updates;
-	}
-
-	/**
-	 *
-	 * @param $extension String
-	 * @param $basefile String
-	 * @param $comparefile String
-	 * @param $verbose Boolean
-	 * @param $alwaysGetResult Boolean
-	 * @param $saveResults Boolean
-	 *
-	 * @return Integer: the amount of updated messages
-	 */
-	public static function compareExtensionFiles( $extension, $basefile, $comparefile, $verbose, $alwaysGetResult = true, $saveResults = false ) {
-		// FIXME: Factor out duplicated code?
-
-		$basefilecontents = self::getFileContents( $basefile );
-
-		if ( $basefilecontents === false || $basefilecontents === '' ) {
-			return 0; // Failed
-		}
-
-		// Cleanup the file where needed.
-		$basefilecontents = self::cleanupExtensionFile( $basefilecontents );
-
-		// Rename the arrays.
-		$basefilecontents = preg_replace( "/\\\$messages/", "\$base_messages", $basefilecontents );
-		$basehash = md5( $basefilecontents );
-
-		// If this is the remote file
-		if ( preg_match( "/^http/", $basefile ) && !$alwaysGetResult ) {
-			// Check if the hash has changed
-			if ( !self::checkHash( $basefile, $basehash ) ) {
-				self::myLog( "Skipping {$extension} since the remote file has not changed since our last update", $verbose );
-				return 0;
-			}
-		}
-
-		// And get the real contents
-		$base_messages = self::parsePHP( $basefilecontents, 'base_messages' );
-
-		$comparefilecontents = self::getFileContents( $comparefile );
-
-		if ( $comparefilecontents === false || $comparefilecontents === '' ) {
-			return 0; // Failed
-		}
-
-		// Only get what we need.
-		$comparefilecontents = self::cleanupExtensionFile( $comparefilecontents );
-
-		// Rename the array.
-		$comparefilecontents = preg_replace( "/\\\$messages/", "\$compare_messages", $comparefilecontents );
-		$comparehash = md5( $comparefilecontents );
-
-		if ( preg_match( "/^http/", $comparefile ) && !$alwaysGetResult ) {
-			// Check if the remote file has changed
-			if ( !self::checkHash( $comparefile, $comparehash ) ) {
-				self::myLog( "Skipping {$extension} since the remote file has not changed since our last update", $verbose );
-				return 0;
-			}
-		}
-
-		// Get the real array.
-		$compare_messages = self::parsePHP( $comparefilecontents, 'compare_messages' );
-
-		// If both files are the same, they can be skipped.
-		if ( $basehash == $comparehash && !$alwaysGetResult ) {
-			self::myLog( "Skipping {$extension} since the remote file is the same as the local file", $verbose );
-			return 0;
-		}
-
-		// Update counter.
-		$updates = 0;
-
-		if ( !is_array( $base_messages ) ) {
-			$base_messages = array();
-		}
-
-		if ( empty( $base_messages['en'] ) ) {
-			$base_messages['en'] = array();
-		}
-
-		if ( !is_array( $compare_messages ) ) {
-			$compare_messages = array();
-		}
-
-		if ( empty( $compare_messages['en'] ) ) {
-			$compare_messages['en'] = array();
-		}
-
-		// Find the changed english strings.
-		$forbiddenKeys = array_diff_assoc( $base_messages['en'], $compare_messages['en'] );
-
-		// Do an update for each language.
-		foreach ( $base_messages as $language => $messages ) {
-			if ( $language == 'en' ) { // Skip english.
-				continue;
-			}
-
-			if ( !isset( $compare_messages[$language] ) ) {
-				$compare_messages[$language] = array();
-			}
-			// Add the already known messages to the array so we will only find new changes.
-			$compare_messages[$language] = array_merge(
-				$compare_messages[$language],
-				self::readFile( $language )
-			);
-
-			if ( empty( $compare_messages[$language] ) || !is_array( $compare_messages[$language] ) ) {
-				$compare_messages[$language] = array();
-			}
-
-			// Get the array of changed strings.
-			$changedStrings = array_diff_assoc( $messages, $compare_messages[$language] );
-
-			// If we want to save the changes.
-			// HACK: because of the hack in saveChanges(), we need to call that function
-			// even if $changedStrings is empty. So comment out the $changedStrings checks below.
-			if ( $saveResults === true /*&& !empty( $changedStrings ) && is_array( $changedStrings )*/ ) {
-				self::myLog( "--Checking languagecode {$language}--", $verbose );
-				// The save them
-				$updates = self::saveChanges( $changedStrings, $forbiddenKeys, $compare_messages[$language], $messages, $language, $verbose );
-				self::myLog( "{$updates} messages updated for {$language}.", $verbose );
-			}/* elseif($saveResults === true) {
-				self::myLog( "--{$language} hasn't changed--", $verbose );
-			}*/
-		}
-
-		// And log some stuff.
-		self::myLog( "Updated " . $updates . " messages for the '{$extension}' extension", $verbose );
-
-		self::saveHash( $basefile, $basehash );
-
-		self::saveHash( $comparefile, $comparehash );
-
-		return $updates;
 	}
 
 	/**
