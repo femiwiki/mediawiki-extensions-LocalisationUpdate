@@ -18,9 +18,10 @@ $messages['en'] = array(
 /** Message documentation (Message documentation)
  * @author Fryed-peach
  * @author Purodha
+ * @author Shirayuki
  */
 $messages['qqq'] = array(
-	'localisationupdate-desc' => '{{desc}}',
+	'localisationupdate-desc' => '{{desc|name=Localisation Update|url=http://www.mediawiki.org/wiki/Extension:LocalisationUpdate}}',
 );
 
 /** Afrikaans (Afrikaans)
