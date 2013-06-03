@@ -329,7 +329,7 @@ $messages['ms'] = array(
 	'localisationupdate-desc' => 'Memastikan kekemaskinian mesej-mesej yang disetempatkan',
 );
 
-/** Norwegian Bokmål (norsk (bokmål)‎)
+/** Norwegian Bokmål (norsk bokmål)
  * @author Nghtwlkr
  */
 $messages['nb'] = array(
@@ -343,7 +343,7 @@ $messages['nl'] = array(
 	'localisationupdate-desc' => 'Houdt de gelokaliseerde berichten zo actueel mogelijk',
 );
 
-/** Norwegian Nynorsk (norsk (nynorsk)‎)
+/** Norwegian Nynorsk (norsk nynorsk)
  * @author Gunnernett
  */
 $messages['nn'] = array(
