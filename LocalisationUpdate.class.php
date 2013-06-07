@@ -145,7 +145,7 @@ class LocalisationUpdate {
 		// Create a full path.
 		$svnfile = str_replace(
 			array( '$1', '$2' ),
-			array( $ext, $extFile ),
+			array( urlencode( $ext ), urlencode( $extFile ) ),
 			$extUrl
 		);
 
@@ -165,7 +165,7 @@ class LocalisationUpdate {
 	public static function updateMediawikiMessages( $verbose, $coreUrl ) {
 		// Find the changed English strings (as these messages won't be updated in ANY language).
 		$localUrl = Language::getMessagesFileName( 'en' );
-		$repoUrl = str_replace( '$2', 'languages/messages/MessagesEn.php', $coreUrl );
+		$repoUrl = str_replace( '$2', urlencode( 'languages/messages/MessagesEn.php' ), $coreUrl );
 		$changedEnglishStrings = self::compareFiles( $repoUrl, $localUrl, $verbose );
 
 		// Count the changes.
@@ -176,7 +176,7 @@ class LocalisationUpdate {
 			$localUrl = Language::getMessagesFileName( $code );
 			// Not prefixed with $IP
 			$filename = Language::getFilename( 'languages/messages/Messages', $code );
-			$repoUrl = str_replace( '$2', $filename, $coreUrl );
+			$repoUrl = str_replace( '$2', urlencode( $filename ), $coreUrl );
 
 			// Compare the files.
 			$changedCount += self::compareFiles( $repoUrl, $localUrl, $verbose, $changedEnglishStrings, false, true );
