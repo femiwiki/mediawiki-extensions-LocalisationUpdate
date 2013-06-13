@@ -15,10 +15,11 @@ $wgLocalisationUpdateDirectory = false;
 /**
  * These should point to either an HTTP-accessible file or local file system.
  * $1 is the name of the repo (for extensions) and $2 is the name of file in the repo.
+ * $3 and $4 are the same, respectively, but urlencoded for e.g. gitblit.
  */
 
-$wgLocalisationUpdateCoreURL = "https://git.wikimedia.org/raw/mediawiki%2Fcore.git/HEAD/$2";
-$wgLocalisationUpdateExtensionURL = "https://git.wikimedia.org/raw/mediawiki%2Fextensions%2F$1.git/HEAD/$2";
+$wgLocalisationUpdateCoreURL = "https://git.wikimedia.org/raw/mediawiki%2Fcore.git/HEAD/$4";
+$wgLocalisationUpdateExtensionURL = "https://git.wikimedia.org/raw/mediawiki%2Fextensions%2F$3.git/HEAD/$4";
 
 /// Deprecated
 $wgLocalisationUpdateSVNURL = false;
