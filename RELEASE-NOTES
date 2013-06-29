@@ -1,0 +1,6 @@
+== LocalisationUpdate 2013.06 ==
+Released at 2013-06-29.
+
+The default values for $wgLocalisationUpdateCoreURL and
+$wgLocalisationUpdateExtensionURL were changed to point
+to Wikimedia's new Git repo server https://git.wikimedia.org .
