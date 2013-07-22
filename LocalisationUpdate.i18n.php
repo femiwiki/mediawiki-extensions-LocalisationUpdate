@@ -373,10 +373,11 @@ $messages['pms'] = array(
 
 /** Portuguese (português)
  * @author Hamilton Abreu
+ * @author Luckas
  * @author Malafaya
  */
 $messages['pt'] = array(
-	'localisationupdate-desc' => 'Mantém as mensagens localizadas tão actualizadas quanto possível',
+	'localisationupdate-desc' => 'Mantém as mensagens localizadas tão atualizadas quanto possível',
 );
 
 /** Brazilian Portuguese (português do Brasil)
