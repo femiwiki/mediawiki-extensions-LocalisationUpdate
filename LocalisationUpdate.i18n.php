@@ -289,9 +289,10 @@ $messages['km'] = array(
 
 /** Korean (한국어)
  * @author Kwj2772
+ * @author 아라
  */
 $messages['ko'] = array(
-	'localisationupdate-desc' => '번역된 시스템 메시지를 가능한 한 최신으로 유지',
+	'localisationupdate-desc' => '번역된 메시지를 가능한 한 최신으로 유지합니다',
 );
 
 /** Colognian (Ripoarisch)
