@@ -102,7 +102,7 @@ $messages['ca'] = array(
 	'localisationupdate-desc' => 'Manté els missatges localitzats tan actualitzats com sigui possible',
 );
 
-/** Czech (česky)
+/** Czech (čeština)
  * @author Mormegil
  */
 $messages['cs'] = array(
