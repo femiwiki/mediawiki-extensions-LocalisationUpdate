@@ -5,10 +5,8 @@
  * @license GPL-2.0+
  */
 
-global $wgAutoloadClasses;
 $dir = __DIR__;
-
-$wgAutoloadClasses += array(
+$GLOBALS['wgAutoloadClasses'] += array(
 	'LocalisationUpdate' => "$dir/LocalisationUpdate.class.php",
 	'LU_Updater' => "$dir/Updater.php",
 	'QuickArrayReader' => "$dir/QuickArrayReader.php",
