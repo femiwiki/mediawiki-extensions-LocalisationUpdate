@@ -102,6 +102,13 @@ $messages['ca'] = array(
 	'localisationupdate-desc' => 'Manté els missatges localitzats tan actualitzats com sigui possible',
 );
 
+/** Chechen (нохчийн)
+ * @author Умар
+ */
+$messages['ce'] = array(
+	'localisationupdate-desc' => 'Таро ма хуьйла хаамашан болх бан гӀо до',
+);
+
 /** Czech (čeština)
  * @author Mormegil
  */
