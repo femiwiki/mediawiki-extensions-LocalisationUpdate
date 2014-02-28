@@ -31,7 +31,7 @@ $wgExtensionCredits['other'][] = array(
 	'path' => __FILE__,
 	'name' => 'LocalisationUpdate',
 	'author' => array( 'Tom Maaswinkel', 'Niklas Laxström', 'Roan Kattouw' ),
-	'version' => '1.0',
+	'version' => '[https://www.mediawiki.org/wiki/MLEB MLEB 2014.02]',
 	'url' => 'https://www.mediawiki.org/wiki/Extension:LocalisationUpdate',
 	'descriptionmsg' => 'localisationupdate-desc',
 );
