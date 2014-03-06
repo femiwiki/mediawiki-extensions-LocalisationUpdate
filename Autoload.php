@@ -12,6 +12,9 @@ $wgAutoloadClasses += array(
 	'LocalisationUpdate' => "$dir/LocalisationUpdate.class.php",
 	'QuickArrayReader' => "$dir/QuickArrayReader.php",
 
+	# finder
+	'LU_Finder' => "$dir/finder/Finder.php",
+
 	# reader
 	'LU_JSONReader' => "$dir/reader/JSONReader.php",
 	'LU_PHPReader' => "$dir/reader/PHPReader.php",
