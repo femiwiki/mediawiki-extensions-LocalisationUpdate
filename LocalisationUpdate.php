@@ -40,5 +40,5 @@ $wgHooks['LocalisationCacheRecache'][] = 'LocalisationUpdate::onRecache';
 
 $dir = __DIR__ . '/';
 $wgExtensionMessagesFiles['LocalisationUpdate'] = $dir . 'LocalisationUpdate.i18n.php';
-$wgAutoloadClasses['LocalisationUpdate'] = $dir . 'LocalisationUpdate.class.php';
-$wgAutoloadClasses['QuickArrayReader'] = $dir . 'QuickArrayReader.php';
+
+require "$dir/Autoload.php";
