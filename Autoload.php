@@ -10,6 +10,7 @@ $dir = __DIR__;
 
 $wgAutoloadClasses += array(
 	'LocalisationUpdate' => "$dir/LocalisationUpdate.class.php",
+	'LU_Updater' => "$dir/Updater.php",
 	'QuickArrayReader' => "$dir/QuickArrayReader.php",
 
 	# fetcher
