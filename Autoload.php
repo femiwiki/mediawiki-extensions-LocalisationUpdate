@@ -12,6 +12,13 @@ $wgAutoloadClasses += array(
 	'LocalisationUpdate' => "$dir/LocalisationUpdate.class.php",
 	'QuickArrayReader' => "$dir/QuickArrayReader.php",
 
+	# fetcher
+	'LU_Fetcher' => "$dir/fetcher/Fetcher.php",
+	'LU_FetcherFactory' => "$dir/fetcher/FetcherFactory.php",
+	'LU_FileSystemFetcher' => "$dir/fetcher/FileSystemFetcher.php",
+	'LU_GitHubFetcher' => "$dir/fetcher/GitHubFetcher.php",
+	'LU_HttpFetcher' => "$dir/fetcher/HttpFetcher.php",
+
 	# finder
 	'LU_Finder' => "$dir/finder/Finder.php",
 
