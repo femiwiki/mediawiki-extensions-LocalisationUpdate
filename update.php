@@ -13,7 +13,7 @@ class LU extends Maintenance {
 		$this->mDescription = 'Fetches translation updates to MediaWiki and extensions.';
 		$this->addOption(
 			'repoid',
-			'Fetch translations from repositores identified by this',
+			'Fetch translations from repositories identified by this',
 			false, /*required*/
 			true /*has arg*/
 		);
