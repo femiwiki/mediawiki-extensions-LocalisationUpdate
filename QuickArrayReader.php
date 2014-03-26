@@ -168,6 +168,7 @@ class QuickArrayReader {
 			// @fixme trim() call is due to mystery bug where whitespace gets
 			// appended to the token; without it we ended up reading in the
 			// extra quote on the end!
+			wfRestoreWarnings();
 			return stripcslashes( substr( trim( $str ), 1, -1 ) );
 		}
 		wfRestoreWarnings();

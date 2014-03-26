@@ -57,7 +57,13 @@ class LU_Updater {
 
 		foreach ( $files as $filename => $contents ) {
 			$reader = $readerFactory->getReader( $filename );
-			$parsed = $reader->parse( $contents );
+			try {
+				$parsed = $reader->parse( $contents );
+			} catch ( Exception $e ) {
+				trigger_error( __METHOD__ . ": Unable to parse messages from $filename", E_USER_WARNING );
+				continue;
+			}
+
 			foreach ( $parsed as $code => $langMessages ) {
 				if ( !isset( $messages[$code] ) ) {
 					$messages[$code] = array();
