@@ -40,7 +40,7 @@ $wgExtensionCredits['other'][] = array(
 	'path' => __FILE__,
 	'name' => 'LocalisationUpdate',
 	'author' => array( 'Tom Maaswinkel', 'Niklas Laxström', 'Roan Kattouw' ),
-	'version' => '1.1',
+	'version' => '1.2.0',
 	'url' => 'https://www.mediawiki.org/wiki/Extension:LocalisationUpdate',
 	'descriptionmsg' => 'localisationupdate-desc',
 );
@@ -48,6 +48,7 @@ $wgExtensionCredits['other'][] = array(
 $wgHooks['LocalisationCacheRecache'][] = 'LocalisationUpdate::onRecache';
 
 $dir = __DIR__;
+$wgMessagesDirs['LocalisationUpdate'] = __DIR__ . '/i18n';
 $wgExtensionMessagesFiles['LocalisationUpdate'] = "$dir/LocalisationUpdate.i18n.php";
 
 require "$dir/Autoload.php";
