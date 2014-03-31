@@ -1,0 +1,42 @@
+== LocalisationUpdate 2014.03 ==
+Released at 2014-03-31.
+
+LocalisationUpdate is rewritten for JSON file format support for extensions.
+This is compatible with MediaWiki 1.19 and above.
+* Extensions using JSON are fully supported and LocalisationUpdate will pickup
+new languages as they appear.
+* LocalisationUpdate will store translation using JSON file format. If
+extension is not yet migrated to JSON, messages will be stored as PHP file.
+
+=== Configuration changes ===
+
+==== Global Variables ====
+
+====== $wgLocalisationUpdateRepository ======
+Default repository source to fetch translation. MediaWiki's Github mirror is
+set to default repository to fetch translations. This is added with version 1.1.
+
+===== $wgLocalisationUpdateRepositories =====
+Array of repositories URLs from which to retrieve localisations for core
+MediaWiki and extensions. Default is set to GitHub's MediaWiki Git repositories
+and you should not change this unless you're using this performance improvement or
+otherwise know what you're doing. This is added with version 1.1.
+
+==== Script parameters changes ====
+With version 1.1,
+
+ --repoid: Fetch translations from repositories identified by this
+
+==== Notes ====
+* Once core MediaWiki switches to JSON format, all users must update LU to keep
+receiving updates. They will need to update anyway because older versions of
+LocalisationUpdate do not support JSON at all.
+
+* If an extension switches to JSON, we will not be able to provide updates
+until its local checkout is updated to such a version. LocalisationUpdate does
+not know about the switch and will try to fetch the PHP shim, which does not
+have translations any longer. This is usually okay, as the PHP shims support
+old MediaWiki versions; problems might appear if the extension has other
+incompatible changes which prevent updating.
+
+* For more details, also see: https://www.mediawiki.org/wiki/Extension:LocalisationUpdate
