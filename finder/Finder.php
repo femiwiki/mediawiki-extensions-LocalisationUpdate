@@ -10,6 +10,11 @@
  * included for l10n updates.
  */
 class LU_Finder {
+	/**
+	 * @param array $php See $wgExtensionMessagesFiles
+	 * @param array $json See $wgMessagesDirs
+	 * @param string $core Absolute path to MediaWiki core
+	 */
 	public function __construct( $php, $json, $core ) {
 		$this->php = $php;
 		$this->json = $json;
@@ -19,12 +24,14 @@ class LU_Finder {
 	public function getComponents() {
 		$components = array();
 
-		// TODO: Update this when core starts using json
-		$components['core'] = array(
-			'repo' => 'mediawiki',
-			'orig' => "file://{$this->core}/languages/messages/Messages*.php",
-			'path' => 'languages/messages/Messages*.php',
-		);
+		// For older versions of Mediawiki, pull json updates even though its still using php
+		if ( !isset( $json['core'] ) ) {
+			$components['core'] = array(
+				'repo' => 'mediawiki',
+				'orig' => "file://{$this->core}/languages/messages/Messages*.php",
+				'path' => 'languages/messages/i18n/*.json',
+			);
+		}
 
 		foreach ( $this->json as $key => $value ) {
 			// Json should take priority if both exist
