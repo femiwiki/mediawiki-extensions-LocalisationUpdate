@@ -12,13 +12,13 @@ $wgLocalisationUpdateDirectory = false;
 
 /**
  * Default repository source to use.
- * @since 2013-03
+ * @since 2014-03
  */
 $wgLocalisationUpdateRepository = 'github';
 
 /**
  * Available repository sources.
- * @since 2013-03
+ * @since 2014-03
  */
 $wgLocalisationUpdateRepositories = array();
 $wgLocalisationUpdateRepositories['github'] = array(
