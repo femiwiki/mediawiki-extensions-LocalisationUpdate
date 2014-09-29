@@ -1,0 +1,5 @@
+== LocalisationUpdate 2014.09 ==
+Released at 2014-09-29.
+
+=== Noteworthy changes ===
+* Bug 68781: New hook LocalisationCacheRecacheFallback in MediaWiki 1.24 and above allows to not use the wrong message when a language itself doesn't have a change but one of its fallbacks does.
