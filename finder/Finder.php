@@ -41,19 +41,16 @@ class LU_Finder {
 			unset( $this->php[$key] );
 
 			foreach ( (array)$value as $subkey => $subvalue ) {
-				// This ignores magic, alias etc. non message files
-				$matches = array();
-				$ok = preg_match( '~/extensions/(?P<name>[^/]+)/(?P<path>.*)$~', $subvalue, $matches );
-				if ( !$ok ) {
+				$item = $this->getItem( 'extension', $subvalue );
+				if ( $item !== null ) {
+					$components["$key-$subkey"] = $item;
 					continue;
 				}
 
-				$components["$key-$subkey"] = array(
-					'repo' => 'extension',
-					'name' => $matches['name'],
-					'orig' => "file://$subvalue/*.json",
-					'path' => "{$matches['path']}/*.json",
-				);
+				$item = $this->getItem( 'skin', $subvalue );
+				if ( $item !== null ) {
+					$components["$key-$subkey"] = $item;
+				}
 			}
 		}
 
@@ -74,5 +71,25 @@ class LU_Finder {
 		}
 
 		return $components;
+	}
+
+	/**
+	 * @param string $type extension or skin
+	 * @param string $subvalue
+	 * @return array|null
+	 */
+	private function getItem( $type, $subvalue ) {
+		// This ignores magic, alias etc. non message files
+		$matches = array();
+		if ( !preg_match( "~/$type/(?P<name>[^/]+)/(?P<path>.*)$~", $subvalue, $matches ) ) {
+			return null;
+		}
+
+		return array(
+			'repo' => $type,
+			'name' => $matches['name'],
+			'orig' => "file://$subvalue/*.json",
+			'path' => "{$matches['path']}/*.json",
+		);
 	}
 }

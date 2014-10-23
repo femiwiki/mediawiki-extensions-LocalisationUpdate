@@ -26,6 +26,8 @@ $wgLocalisationUpdateRepositories['github'] = array(
 		'https://raw.github.com/wikimedia/mediawiki-core/master/%PATH%',
 	'extension' =>
 		'https://raw.github.com/wikimedia/mediawiki-extensions-%NAME%/master/%PATH%',
+	'skin' =>
+		'https://raw.github.com/wikimedia/mediawiki-skins-%NAME%/master/%PATH%',
 );
 
 // Example for local filesystem configuration
@@ -34,6 +36,8 @@ $wgLocalisationUpdateRepositories['github'] = array(
 #		'file:///resources/projects/mediawiki/master/%PATH%',
 #	'extension' =>
 #		'file:///resources/projects/mediawiki-extensions/extensions/%NAME%/%PATH%',
+#	'skin' =>
+#		'file:///resources/projects/mediawiki-skins/skins/%NAME%/%PATH%',
 #);
 
 $wgExtensionCredits['other'][] = array(

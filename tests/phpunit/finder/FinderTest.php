@@ -18,6 +18,7 @@ class LU_FinderTest extends MediaWikiTestCase {
 					'core' => '/IP/extensions/Door/i18n/core',
 					'extra' => '/IP/extensions/Door/i18n/extra',
 				),
+				'Vector' => '/IP/skins/Vector/i18n',
 			),
 			'/IP'
 		);
@@ -66,5 +67,14 @@ class LU_FinderTest extends MediaWikiTestCase {
 		);
 		$this->assertArrayHasKey( 'Door-extra', $observed );
 		$this->assertSame( $expected, $observed['Door-extra'], 'Multidir json extension' );
+
+		$expected = array(
+			'repo' => 'skin',
+			'name' => 'Vector',
+			'orig' => 'file:///IP/skins/Vector/i18n/*.json',
+			'path' => 'i18n/*.json'
+		);
+		$this->assertArrayHasKey( 'skinname-vector', $observed );
+		$this->assertSame( $expected, $observed['skinname-vector'], 'Json skin' );
 	}
 }

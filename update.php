@@ -10,7 +10,7 @@ require "$IP/maintenance/Maintenance.php";
 class LU extends Maintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->mDescription = 'Fetches translation updates to MediaWiki and extensions.';
+		$this->mDescription = 'Fetches translation updates to MediaWiki core, skins and extensions.';
 		$this->addOption(
 			'repoid',
 			'Fetch translations from repositories identified by this',
