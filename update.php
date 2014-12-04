@@ -25,7 +25,7 @@ class LU extends Maintenance {
 		ini_set( "max_execution_time", 0 );
 		ini_set( 'memory_limit', -1 );
 
-		global $wgExtensionMessagesFiles, $wgMessagesDirs, $IP;
+		global $wgExtensionMessagesFiles, $IP;
 		global $wgLocalisationUpdateRepositories;
 		global $wgLocalisationUpdateRepository;
 
@@ -35,7 +35,15 @@ class LU extends Maintenance {
 			return;
 		}
 
-		$finder = new LU_Finder( $wgExtensionMessagesFiles, $wgMessagesDirs, $IP );
+		$lc = Language::getLocalisationCache();
+		if ( is_callable( array( $lc, 'getMessagesDirs' ) ) ) { // Introduced in 1.25
+			$messagesDirs = $lc->getMessagesDirs();
+		} else {
+			global $wgMessagesDirs;
+			$messagesDirs = $wgMessagesDirs;
+		}
+
+		$finder = new LU_Finder( $wgExtensionMessagesFiles, $messagesDirs, $IP );
 		$readerFactory = new LU_ReaderFactory();
 		$fetcherFactory = new LU_FetcherFactory();
 
