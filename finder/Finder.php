@@ -41,6 +41,17 @@ class LU_Finder {
 			unset( $this->php[$key] );
 
 			foreach ( (array)$value as $subkey => $subvalue ) {
+				// Mediawiki core files
+				$matches = array();
+				if ( preg_match( '~/(?P<path>(?:includes|languages|resources)/.*)$~', $subvalue, $matches ) ) {
+					$components["$key-$subkey"] = array(
+						'repo' => 'mediawiki',
+						'orig' => "file://$value/*.json",
+						'path' => "{$matches['path']}/*.json",
+					);
+					continue;
+				}
+
 				$item = $this->getItem( 'extensions', $subvalue );
 				if ( $item !== null ) {
 					$item['repo'] = 'extension';
@@ -52,12 +63,12 @@ class LU_Finder {
 				if ( $item !== null ) {
 					$item['repo'] = 'skin';
 					$components["$key-$subkey"] = $item;
+					continue;
 				}
 			}
 		}
 
 		foreach ( $this->php as $key => $value ) {
-			// This currently skips core i18n files like resources/oojs-ui/i18n
 			$matches = array();
 			$ok = preg_match( '~/extensions/(?P<name>[^/]+)/(?P<path>.*\.i18n\.php)$~', $value, $matches );
 			if ( !$ok ) {
