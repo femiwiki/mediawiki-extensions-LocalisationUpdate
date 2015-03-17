@@ -41,14 +41,16 @@ class LU_Finder {
 			unset( $this->php[$key] );
 
 			foreach ( (array)$value as $subkey => $subvalue ) {
-				$item = $this->getItem( 'extension', $subvalue );
+				$item = $this->getItem( 'extensions', $subvalue );
 				if ( $item !== null ) {
+					$item['repo'] = 'extension';
 					$components["$key-$subkey"] = $item;
 					continue;
 				}
 
-				$item = $this->getItem( 'skin', $subvalue );
+				$item = $this->getItem( 'skins', $subvalue );
 				if ( $item !== null ) {
+					$item['repo'] = 'skin';
 					$components["$key-$subkey"] = $item;
 				}
 			}
@@ -74,19 +76,18 @@ class LU_Finder {
 	}
 
 	/**
-	 * @param string $type extension or skin
+	 * @param string $dir extensions or skins
 	 * @param string $subvalue
 	 * @return array|null
 	 */
-	private function getItem( $type, $subvalue ) {
+	private function getItem( $dir, $subvalue ) {
 		// This ignores magic, alias etc. non message files
 		$matches = array();
-		if ( !preg_match( "~/$type/(?P<name>[^/]+)/(?P<path>.*)$~", $subvalue, $matches ) ) {
+		if ( !preg_match( "~/$dir/(?P<name>[^/]+)/(?P<path>.*)$~", $subvalue, $matches ) ) {
 			return null;
 		}
 
 		return array(
-			'repo' => $type,
 			'name' => $matches['name'],
 			'orig' => "file://$subvalue/*.json",
 			'path' => "{$matches['path']}/*.json",
