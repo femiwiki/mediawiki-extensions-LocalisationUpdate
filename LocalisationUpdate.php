@@ -51,6 +51,7 @@ $wgExtensionCredits['other'][] = array(
 
 $wgHooks['LocalisationCacheRecache'][] = 'LocalisationUpdate::onRecache';
 $wgHooks['LocalisationCacheRecacheFallback'][] = 'LocalisationUpdate::onRecacheFallback';
+$GLOBALS['wgHooks']['UnitTestsList'][] = 'LocalisationUpdate::setupUnitTests';
 
 $dir = __DIR__;
 $wgMessagesDirs['LocalisationUpdate'] = __DIR__ . '/i18n';

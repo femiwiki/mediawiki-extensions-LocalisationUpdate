@@ -27,10 +27,11 @@ class LU_FinderTest extends MediaWikiTestCase {
 		$expected = array(
 			'repo' => 'mediawiki',
 			'orig' => "file:///IP/languages/messages/Messages*.php",
-			'path' => 'languages/messages/Messages*.php',
+			'path' => 'languages/messages/i18n/*.json',
 		);
+
 		$this->assertArrayHasKey( 'core', $observed );
-		$this->assertSame( $expected, $observed['core'], 'Core php file' );
+		$this->assertEquals( $expected, $observed['core'], 'Core php file' );
 
 		$expected = array(
 			'repo' => 'extension',
@@ -39,7 +40,7 @@ class LU_FinderTest extends MediaWikiTestCase {
 			'path' => 'TranslateSearch.i18n.php'
 		);
 		$this->assertArrayHasKey( 'TranslateSearch', $observed );
-		$this->assertSame( $expected, $observed['TranslateSearch'], 'PHP only extension' );
+		$this->assertEquals( $expected, $observed['TranslateSearch'], 'PHP only extension' );
 
 		$expected = array(
 			'repo' => 'extension',
@@ -48,7 +49,7 @@ class LU_FinderTest extends MediaWikiTestCase {
 			'path' => 'i18n/*.json'
 		);
 		$this->assertArrayHasKey( 'Babel-0', $observed );
-		$this->assertSame( $expected, $observed['Babel-0'], 'PHP&JSON extension' );
+		$this->assertEquals( $expected, $observed['Babel-0'], 'PHP&JSON extension' );
 
 		$expected = array(
 			'repo' => 'extension',
@@ -57,7 +58,7 @@ class LU_FinderTest extends MediaWikiTestCase {
 			'path' => 'i18n/core/*.json'
 		);
 		$this->assertArrayHasKey( 'Door-core', $observed );
-		$this->assertSame( $expected, $observed['Door-core'], 'Multidir json extension' );
+		$this->assertEquals( $expected, $observed['Door-core'], 'Multidir json extension' );
 
 		$expected = array(
 			'repo' => 'extension',
@@ -66,7 +67,7 @@ class LU_FinderTest extends MediaWikiTestCase {
 			'path' => 'i18n/extra/*.json'
 		);
 		$this->assertArrayHasKey( 'Door-extra', $observed );
-		$this->assertSame( $expected, $observed['Door-extra'], 'Multidir json extension' );
+		$this->assertEquals( $expected, $observed['Door-extra'], 'Multidir json extension' );
 
 		$expected = array(
 			'repo' => 'skin',
@@ -74,7 +75,7 @@ class LU_FinderTest extends MediaWikiTestCase {
 			'orig' => 'file:///IP/skins/Vector/i18n/*.json',
 			'path' => 'i18n/*.json'
 		);
-		$this->assertArrayHasKey( 'skinname-vector', $observed );
-		$this->assertSame( $expected, $observed['skinname-vector'], 'Json skin' );
+		$this->assertArrayHasKey( 'Vector-0', $observed );
+		$this->assertEquals( $expected, $observed['Vector-0'], 'Json skin' );
 	}
 }
