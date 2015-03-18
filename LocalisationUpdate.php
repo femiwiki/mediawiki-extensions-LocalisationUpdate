@@ -23,7 +23,7 @@ $wgLocalisationUpdateRepository = 'github';
 $wgLocalisationUpdateRepositories = array();
 $wgLocalisationUpdateRepositories['github'] = array(
 	'mediawiki' =>
-		'https://raw.github.com/wikimedia/mediawiki-core/master/%PATH%',
+		'https://raw.github.com/wikimedia/mediawiki/master/%PATH%',
 	'extension' =>
 		'https://raw.github.com/wikimedia/mediawiki-extensions-%NAME%/master/%PATH%',
 	'skin' =>
