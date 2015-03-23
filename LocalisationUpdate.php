@@ -1,5 +1,19 @@
 <?php
 
+if ( function_exists( 'wfLoadExtension' ) ) {
+	wfLoadExtension( 'LocalisationUpdate' );
+	// Keep i18n globals so mergeMessageFileList.php doesn't break
+	$wgMessagesDirs['LocalisationUpdate'] = __DIR__ . '/i18n';
+	/* wfWarn(
+		'Deprecated PHP entry point used for LocalisationUpdate extension. Please use wfLoadExtension instead, ' .
+		'see https://www.mediawiki.org/wiki/Extension_registration for more details.'
+	); */
+	return true;
+}
+/**
+ * Setup for pre-1.25 wikis. Make sure this is kept in sync with extension.json
+ */
+
 /**
  * Directory to store serialized cache files in. Defaults to $wgCacheDirectory.
  * It's OK to share this directory among wikis as long as the wiki you run
