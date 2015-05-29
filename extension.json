@@ -51,5 +51,6 @@
 				"skin": "https://raw.github.com/wikimedia/mediawiki-skins-%NAME%/master/%PATH%"
 			}
 		}
-	}
+	},
+	"manifest_version": 1
 }
