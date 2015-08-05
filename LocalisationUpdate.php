@@ -57,6 +57,7 @@ $GLOBALS['wgLocalisationUpdateRepositories']['github'] = array(
 $GLOBALS['wgExtensionCredits']['other'][] = array(
 	'path' => __FILE__,
 	'name' => 'LocalisationUpdate',
+	'namemsg' => 'localisationupdate-extensionname',
 	'author' => array( 'Tom Maaswinkel', 'Niklas Laxström', 'Roan Kattouw' ),
 	'version' => '1.3.0',
 	'url' => 'https://www.mediawiki.org/wiki/Extension:LocalisationUpdate',
