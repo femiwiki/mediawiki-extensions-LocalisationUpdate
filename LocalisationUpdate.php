@@ -61,6 +61,7 @@ $GLOBALS['wgExtensionCredits']['other'][] = array(
 	'version' => '1.3.0',
 	'url' => 'https://www.mediawiki.org/wiki/Extension:LocalisationUpdate',
 	'descriptionmsg' => 'localisationupdate-desc',
+	'license-name' => 'GPL-2.0+',
 );
 
 $GLOBALS['wgHooks']['UnitTestsList'][] = 'LocalisationUpdate::setupUnitTests';
