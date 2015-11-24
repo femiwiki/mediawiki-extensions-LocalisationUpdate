@@ -6,24 +6,23 @@
  */
 
 $dir = __DIR__;
-$GLOBALS['wgAutoloadClasses'] += array(
-	'LocalisationUpdate' => "$dir/LocalisationUpdate.class.php",
-	'LU_Updater' => "$dir/Updater.php",
-	'QuickArrayReader' => "$dir/QuickArrayReader.php",
 
-	# fetcher
-	'LU_Fetcher' => "$dir/fetcher/Fetcher.php",
-	'LU_FetcherFactory' => "$dir/fetcher/FetcherFactory.php",
-	'LU_FileSystemFetcher' => "$dir/fetcher/FileSystemFetcher.php",
-	'LU_GitHubFetcher' => "$dir/fetcher/GitHubFetcher.php",
-	'LU_HttpFetcher' => "$dir/fetcher/HttpFetcher.php",
+$GLOBALS['wgAutoloadClasses']['LocalisationUpdate'] = "$dir/LocalisationUpdate.class.php";
+$GLOBALS['wgAutoloadClasses']['LU_Updater'] = "$dir/Updater.php";
+$GLOBALS['wgAutoloadClasses']['QuickArrayReader'] = "$dir/QuickArrayReader.php";
 
-	# finder
-	'LU_Finder' => "$dir/finder/Finder.php",
+# fetcher
+$GLOBALS['wgAutoloadClasses']['LU_Fetcher'] = "$dir/fetcher/Fetcher.php";
+$GLOBALS['wgAutoloadClasses']['LU_FetcherFactory'] = "$dir/fetcher/FetcherFactory.php";
+$GLOBALS['wgAutoloadClasses']['LU_FileSystemFetcher'] = "$dir/fetcher/FileSystemFetcher.php";
+$GLOBALS['wgAutoloadClasses']['LU_GitHubFetcher'] = "$dir/fetcher/GitHubFetcher.php";
+$GLOBALS['wgAutoloadClasses']['LU_HttpFetcher'] = "$dir/fetcher/HttpFetcher.php";
 
-	# reader
-	'LU_JSONReader' => "$dir/reader/JSONReader.php",
-	'LU_PHPReader' => "$dir/reader/PHPReader.php",
-	'LU_Reader' => "$dir/reader/Reader.php",
-	'LU_ReaderFactory' => "$dir/reader/ReaderFactory.php",
-);
+# finder
+$GLOBALS['wgAutoloadClasses']['LU_Finder'] = "$dir/finder/Finder.php";
+
+# reader
+$GLOBALS['wgAutoloadClasses']['LU_JSONReader'] = "$dir/reader/JSONReader.php";
+$GLOBALS['wgAutoloadClasses']['LU_PHPReader'] = "$dir/reader/PHPReader.php";
+$GLOBALS['wgAutoloadClasses']['LU_Reader'] = "$dir/reader/Reader.php";
+$GLOBALS['wgAutoloadClasses']['LU_ReaderFactory'] = "$dir/reader/ReaderFactory.php";
