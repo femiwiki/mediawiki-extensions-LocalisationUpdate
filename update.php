@@ -2,8 +2,7 @@
 
 $IP = strval( getenv( 'MW_INSTALL_PATH' ) ) !== ''
 	? getenv( 'MW_INSTALL_PATH' )
-	: realpath( dirname( __FILE__ ) . "/../../" );
-// Can use __DIR__ once we drop support for MW 1.19
+	: realpath( __DIR__ . '/../../' );
 
 require "$IP/maintenance/Maintenance.php";
 
@@ -36,12 +35,7 @@ class LU extends Maintenance {
 		}
 
 		$lc = Language::getLocalisationCache();
-		if ( is_callable( array( $lc, 'getMessagesDirs' ) ) ) { // Introduced in 1.25
-			$messagesDirs = $lc->getMessagesDirs();
-		} else {
-			global $wgMessagesDirs;
-			$messagesDirs = $wgMessagesDirs;
-		}
+		$messagesDirs = $lc->getMessagesDirs();
 
 		$finder = new LU_Finder( $wgExtensionMessagesFiles, $messagesDirs, $IP );
 		$readerFactory = new LU_ReaderFactory();
