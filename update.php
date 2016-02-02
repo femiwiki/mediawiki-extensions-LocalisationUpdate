@@ -24,7 +24,10 @@ class LU extends Maintenance {
 		ini_set( "max_execution_time", 0 );
 		ini_set( 'memory_limit', -1 );
 
-		global $wgExtensionMessagesFiles, $IP;
+		// @codingStandardsIgnoreStart Ignore MediaWiki.NamingConventions.ValidGlobalName.wgPrefix
+		global $IP;
+		// @codingStandardsIgnoreEnd
+		global $wgExtensionMessagesFiles;
 		global $wgLocalisationUpdateRepositories;
 		global $wgLocalisationUpdateRepository;
 
@@ -37,9 +40,9 @@ class LU extends Maintenance {
 		$lc = Language::getLocalisationCache();
 		$messagesDirs = $lc->getMessagesDirs();
 
-		$finder = new LU_Finder( $wgExtensionMessagesFiles, $messagesDirs, $IP );
-		$readerFactory = new LU_ReaderFactory();
-		$fetcherFactory = new LU_FetcherFactory();
+		$finder = new LocalisationUpdate\Finder( $wgExtensionMessagesFiles, $messagesDirs, $IP );
+		$readerFactory = new LocalisationUpdate\ReaderFactory();
+		$fetcherFactory = new LocalisationUpdate\FetcherFactory();
 
 		$repoid = $this->getOption( 'repoid', $wgLocalisationUpdateRepository );
 		if ( !isset( $wgLocalisationUpdateRepositories[$repoid] ) ) {
@@ -50,7 +53,7 @@ class LU extends Maintenance {
 		$repos = $wgLocalisationUpdateRepositories[$repoid];
 
 		// Do it ;)
-		$updater = new LU_Updater();
+		$updater = new LocalisationUpdate\Updater();
 		$updatedMessages = $updater->execute(
 			$finder,
 			$readerFactory,
