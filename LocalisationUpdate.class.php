@@ -31,7 +31,7 @@ class LocalisationUpdate {
 			return true;
 		}
 
-		$codeSequence = array_merge( array( $code ), $cache['fallbackSequence'] );
+		$codeSequence = array_merge( [ $code ], $cache['fallbackSequence'] );
 		foreach ( $codeSequence as $csCode ) {
 			$fileName = "$dir/" . self::getFilename( $csCode );
 			$cache['deps'][] = new FileDependency( $fileName );
