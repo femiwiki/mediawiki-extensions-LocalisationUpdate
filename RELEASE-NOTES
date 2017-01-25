@@ -1,0 +1,5 @@
+== LocalisationUpdate 2017.01 ==
+Released at 2017-01-25.
+
+=== Noteworthy changes ===
+* Niklas Laxström added warning for deprecated PHP entry point. Use <code>wfLoadExtensions( array( 'LocalisationUpdate' ) );</code> to load extension in LocalSettings.php now.
