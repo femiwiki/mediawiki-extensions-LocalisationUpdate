@@ -6,6 +6,10 @@
 class LocalisationUpdate {
 	/**
 	 * Hook: LocalisationCacheRecacheFallback
+	 * @param LocalisationCache $lc
+	 * @param string $code
+	 * @param array &$cache
+	 * @return true
 	 */
 	public static function onRecacheFallback( LocalisationCache $lc, $code, array &$cache ) {
 		$dir = self::getDirectory();
@@ -24,6 +28,10 @@ class LocalisationUpdate {
 
 	/**
 	 * Hook: LocalisationCacheRecache
+	 * @param LocalisationCache $lc
+	 * @param string $code
+	 * @param array &$cache
+	 * @return true
 	 */
 	public static function onRecache( LocalisationCache $lc, $code, array &$cache ) {
 		$dir = self::getDirectory();

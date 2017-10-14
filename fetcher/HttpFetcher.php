@@ -18,6 +18,8 @@ class HttpFetcher implements Fetcher {
 	/**
 	 * This is horribly inefficient. Subclasses have more efficient
 	 * implementation of this.
+	 * @param string $pattern
+	 * @return array
 	 */
 	public function fetchDirectory( $pattern ) {
 		$files = [];

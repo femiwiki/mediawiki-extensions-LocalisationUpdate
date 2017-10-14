@@ -10,7 +10,7 @@ class QuickArrayReader {
 	private $vars = [];
 
 	/**
-	 * @param $string string
+	 * @param string $string
 	 */
 	function __construct( $string ) {
 		$scalarTypes = [
@@ -136,8 +136,8 @@ class QuickArrayReader {
 	}
 
 	/**
-	 * @param $got string
-	 * @param $expected string
+	 * @param string $got
+	 * @param string $expected
 	 * @return Exception
 	 */
 	private function except( $got, $expected ) {
@@ -153,7 +153,7 @@ class QuickArrayReader {
 	/**
 	 * Parse a scalar value in PHP
 	 *
-	 * @param $token string
+	 * @param string $token
 	 *
 	 * @return mixed Parsed value
 	 */
@@ -201,7 +201,7 @@ class QuickArrayReader {
 	}
 
 	/**
-	 * @param $varname string
+	 * @param string $varname
 	 * @return null|string
 	 */
 	function getVar( $varname ) {
