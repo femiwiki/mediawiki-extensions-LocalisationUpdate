@@ -16,6 +16,8 @@ class LU extends Maintenance {
 			false, /*required*/
 			true /*has arg*/
 		);
+
+		$this->requireExtension( 'LocalisationUpdate' );
 	}
 
 	public function execute() {
