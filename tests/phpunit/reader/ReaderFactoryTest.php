@@ -7,7 +7,7 @@
 
 namespace LocalisationUpdate;
 
-class ReaderFactoryTest extends \PHPUnit_Framework_TestCase {
+class ReaderFactoryTest extends \PHPUnit\Framework\TestCase {
 	/**
 	 * @dataProvider getReaderProvider
 	 */

@@ -7,7 +7,7 @@
 
 namespace LocalisationUpdate;
 
-class UpdaterTest extends \PHPUnit_Framework_TestCase {
+class UpdaterTest extends \PHPUnit\Framework\TestCase {
 	public function testIsDirectory() {
 		$updater = new Updater();
 
