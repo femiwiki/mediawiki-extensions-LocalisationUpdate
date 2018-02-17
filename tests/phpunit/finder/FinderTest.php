@@ -7,6 +7,9 @@
 
 namespace LocalisationUpdate;
 
+/**
+ * @covers \LocalisationUpdate\Finder
+ */
 class FinderTest extends \PHPUnit\Framework\TestCase {
 	public function testGetComponents() {
 		$finder = new Finder(
