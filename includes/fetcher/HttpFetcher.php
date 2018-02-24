@@ -11,6 +11,11 @@ namespace LocalisationUpdate;
  * Fetches files over HTTP(s).
  */
 class HttpFetcher implements Fetcher {
+	/**
+	 * @param string $url
+	 *
+	 * @return bool|string
+	 */
 	public function fetchFile( $url ) {
 		return \Http::get( $url );
 	}

@@ -18,6 +18,11 @@ class JSONReader implements Reader {
 		$this->code = $code;
 	}
 
+	/**
+	 * @param string $contents
+	 *
+	 * @return array
+	 */
 	public function parse( $contents ) {
 		$messages = \FormatJson::decode( $contents, true );
 		unset( $messages['@metadata'] );

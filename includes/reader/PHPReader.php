@@ -18,6 +18,11 @@ class PHPReader implements Reader {
 		$this->code = $code;
 	}
 
+	/**
+	 * @param string $contents
+	 *
+	 * @return array
+	 */
 	public function parse( $contents ) {
 		if ( strpos( $contents, '$messages' ) === false ) {
 			// This happens for some core languages that only have a fallback.

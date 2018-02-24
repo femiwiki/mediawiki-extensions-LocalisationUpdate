@@ -202,7 +202,7 @@ class QuickArrayReader {
 
 	/**
 	 * @param string $varname
-	 * @return null|string
+	 * @return null|string|array
 	 */
 	function getVar( $varname ) {
 		if ( isset( $this->vars[$varname] ) ) {

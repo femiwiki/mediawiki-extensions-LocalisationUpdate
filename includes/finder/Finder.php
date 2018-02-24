@@ -12,6 +12,21 @@ namespace LocalisationUpdate;
  * included for l10n updates.
  */
 class Finder {
+
+	/**
+	 * @var array
+	 */
+	private $php;
+
+	/**
+	 * @var array
+	 */
+	private $json;
+
+	/**
+	 * @var string
+	 */
+	private $core;
 	/**
 	 * @param array $php See $wgExtensionMessagesFiles
 	 * @param array $json See $wgMessagesDirs

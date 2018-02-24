@@ -16,6 +16,12 @@ namespace LocalisationUpdate;
  * if we store them.
  */
 class GitHubFetcher extends HttpFetcher {
+	/**
+	 * @param string $pattern
+	 *
+	 * @return array
+	 * @throws \Exception
+	 */
 	public function fetchDirectory( $pattern ) {
 		$domain = preg_quote( 'https://raw.github.com/', '~' );
 		$p = "~^$domain(?P<org>[^/]+)/(?P<repo>[^/]+)/(?P<branch>[^/]+)/(?P<path>.+)/.+$~";
