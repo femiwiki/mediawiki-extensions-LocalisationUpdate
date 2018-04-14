@@ -7,10 +7,14 @@
 
 namespace LocalisationUpdate;
 
+use PHPUnit4And6Compat;
+
 /**
  * @covers \LocalisationUpdate\Updater
  */
 class UpdaterTest extends \PHPUnit\Framework\TestCase {
+	use PHPUnit4And6Compat;
+
 	public function testIsDirectory() {
 		$updater = new Updater();
 
