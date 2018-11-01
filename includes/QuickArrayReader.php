@@ -12,7 +12,7 @@ class QuickArrayReader {
 	/**
 	 * @param string $string
 	 */
-	function __construct( $string ) {
+	public function __construct( $string ) {
 		$scalarTypes = [
 			T_LNUMBER => true,
 			T_DNUMBER => true,
@@ -157,7 +157,7 @@ class QuickArrayReader {
 	 *
 	 * @return mixed Parsed value
 	 */
-	function parseScalar( $token ) {
+	private function parseScalar( $token ) {
 		if ( is_array( $token ) ) {
 			$str = $token[1];
 		} else {
@@ -204,7 +204,7 @@ class QuickArrayReader {
 	 * @param string $varname
 	 * @return null|string|array
 	 */
-	function getVar( $varname ) {
+	public function getVar( $varname ) {
 		if ( isset( $this->vars[$varname] ) ) {
 			return $this->vars[$varname];
 		} else {
