@@ -98,9 +98,9 @@ class QuickArrayReader {
 							if ( isset( $scalarTypes[$tokens[$i][0]] ) ) {
 								$val = $this->parseScalar( $tokens[$i] );
 							}
-							wfSuppressWarnings();
+							Wikimedia\suppressWarnings();
 							$buildval[$key] = $val;
-							wfRestoreWarnings();
+							Wikimedia\restoreWarnings();
 							while ( isset( $skipTypes[$tokens[++$i][0]] ) ) {
 							}
 
@@ -118,9 +118,9 @@ class QuickArrayReader {
 					if ( is_null( $varindex ) ) {
 						$this->vars[$varname] = $buildval;
 					} else {
-						wfSuppressWarnings();
+						Wikimedia\suppressWarnings();
 						$this->vars[$varname][$varindex] = $buildval;
-						wfRestoreWarnings();
+						Wikimedia\restoreWarnings();
 					}
 					while ( isset( $skipTypes[$tokens[++$i][0]] ) ) {
 					}
@@ -172,16 +172,16 @@ class QuickArrayReader {
 				[ '\\\'' => '\'', '\\\\' => '\\' ] );
 		}
 
-		wfSuppressWarnings();
+		Wikimedia\suppressWarnings();
 		if ( $str !== '' && $str[0] == '"' ) {
 			// Double-quoted string
 			// @fixme trim() call is due to mystery bug where whitespace gets
 			// appended to the token; without it we ended up reading in the
 			// extra quote on the end!
-			wfRestoreWarnings();
+			Wikimedia\restoreWarnings();
 			return stripcslashes( substr( trim( $str ), 1, -1 ) );
 		}
-		wfRestoreWarnings();
+		Wikimedia\restoreWarnings();
 
 		if ( substr( $str, 0, 4 ) === 'true' ) {
 			return true;
