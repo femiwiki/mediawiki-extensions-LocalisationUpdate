@@ -27,6 +27,7 @@ class Finder {
 	 * @var string
 	 */
 	private $core;
+
 	/**
 	 * @param array $php See $wgExtensionMessagesFiles
 	 * @param array $json See $wgMessagesDirs
