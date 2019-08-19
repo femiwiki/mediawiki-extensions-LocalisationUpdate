@@ -9,7 +9,7 @@ require "$IP/maintenance/Maintenance.php";
 class Update extends Maintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->mDescription = 'Fetches translation updates to MediaWiki core, skins and extensions.';
+		$this->addDescription( 'Fetches translation updates to MediaWiki core, skins and extensions.' );
 		$this->addOption(
 			'repoid',
 			'Fetch translations from repositories identified by this',
