@@ -27,7 +27,6 @@ class Update extends Maintenance {
 		ini_set( 'memory_limit', -1 );
 
 		global $IP;
-		global $wgExtensionMessagesFiles;
 		global $wgLocalisationUpdateRepositories;
 		global $wgLocalisationUpdateRepository;
 
@@ -40,7 +39,7 @@ class Update extends Maintenance {
 		$lc = Language::getLocalisationCache();
 		$messagesDirs = $lc->getMessagesDirs();
 
-		$finder = new LocalisationUpdate\Finder( $wgExtensionMessagesFiles, $messagesDirs, $IP );
+		$finder = new LocalisationUpdate\Finder( $messagesDirs, $IP );
 		$readerFactory = new LocalisationUpdate\ReaderFactory();
 		$fetcherFactory = new LocalisationUpdate\FetcherFactory();
 
