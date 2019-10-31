@@ -1,0 +1,5 @@
+== LocalisationUpdate 2019.10 ==
+Released at 2019-10-31.
+
+=== Noteworthy changes ===
+* Dropped PHP message file support, since MediaWiki > 1.30 is now required.
