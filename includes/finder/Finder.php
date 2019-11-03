@@ -32,7 +32,7 @@ class Finder {
 	}
 
 	/**
-	 * @return array
+	 * @return array[]
 	 */
 	public function getComponents() {
 		$components = [];
