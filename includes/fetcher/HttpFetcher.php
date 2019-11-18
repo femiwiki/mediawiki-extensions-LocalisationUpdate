@@ -17,7 +17,8 @@ class HttpFetcher implements Fetcher {
 	 * @return bool|string
 	 */
 	public function fetchFile( $url ) {
-		return \Http::get( $url, [ 'followRedirects' => true ] );
+		global $wgLocalisationUpdateHttpRequestOptions;
+		return \Http::get( $url, $wgLocalisationUpdateHttpRequestOptions );
 	}
 
 	/**
